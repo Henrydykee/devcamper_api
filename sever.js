@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const { json } = require('express');
+//const { json } = require('express');
+const logger = require('./middleware/logger');
+const morgan  = require('morgan')
 
 //load config file
 
@@ -11,8 +13,10 @@ const bootcamps = require('./routes/bootcamps');
 
 const app = express();
 
-const logger = (req,res,next) => {
-    
+app.use(logger);
+//dve logger middleware
+if(process.env.NODE_ENV === 'development'){
+app.use(morgan('dev'));
 }
 
 // mount routers
