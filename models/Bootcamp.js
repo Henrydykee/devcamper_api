@@ -17,7 +17,7 @@ const BootcampSchema = new mongoose.Schema({
     website: {
         type: String,
         match: [
-            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*/,
+            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
             'please use a valid HTTP or HTTPS'
         ]
     },
@@ -36,25 +36,25 @@ const BootcampSchema = new mongoose.Schema({
         type: String,
         requried: [true, 'please enter an address']
     },
-    location: {
-        //Geojson Point  
-        type: {
-            type: String, // Don't do `{ location: { type: String } }`
-            enum: ['Point'], // 'location.type' must be 'Point'
-            required: true
-        },
-        coordinates: {
-            type: [Number],
-            required: true,
-            index: '2dsphere'
-        },
-        formattedAddress: String,
-        street: String,
-        city: String,
-        state: String,
-        zipcode: String,
-        country: String,
-    },
+    // location: {
+    //     //Geojson Point  
+    //     type: {
+    //         type: String, // Don't do `{ location: { type: String } }`
+    //         enum: ['Point'], // 'location.type' must be 'Point'
+    //         required: true
+    //     },
+    //     coordinates: {
+    //         type: [Number],
+    //         required: true,
+    //         index: '2dsphere'
+    //     },
+    //     formattedAddress: String,
+    //     street: String,
+    //     city: String,
+    //     state: String,
+    //     zipcode: String,
+    //     country: String,
+    // },
     careers: {
         type: [String],
         required: true,
@@ -99,4 +99,4 @@ const BootcampSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Bootcamp',BootcampSchema);
+module.exports = mongoose.model('Bootcamp',BootcampSchema)

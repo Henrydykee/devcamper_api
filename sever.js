@@ -18,6 +18,8 @@ connectdb();
 const bootcamps = require('./routes/bootcamps');
 
 const app = express();
+//body parser
+app.use(express.json());
 
 app.use(logger);
 //dve logger middleware
@@ -29,7 +31,7 @@ app.use(morgan('dev'));
 app.use('/api/v1/bootcamps', bootcamps);
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000
 
 const server = app.listen(PORT, console.log(`sever running in ${process.env.NODE_ENV} mode on port ${PORT}`.green));
 
