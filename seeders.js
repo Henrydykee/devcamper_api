@@ -7,8 +7,8 @@ const dotenv = require('dotenv');
 dotenv.config({path: './config/config.env'});
 
 // load models
-const Bootcamps = require('./models/Bootcamp')
-
+const Bootcamps = require('./models/Bootcamp');
+const Course = require('./models/course');
 // connect to db
 moongose.connect(process.env.MONGO_URI,{
     useNewUrlParser: true,
@@ -20,11 +20,13 @@ moongose.connect(process.env.MONGO_URI,{
 
 // read json files
 const  bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/_data/bootcamps.json`, 'utf-8')); 
+const  courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8')); 
 
 //import data into database
 const importData = async() =>{
     try {
         await Bootcamps.create(bootcamps);
+        await Course.create(courses);
         console.log('Data imported..'.green.inverse)
     } catch (error) {
         console.error(`${error}`)
@@ -35,6 +37,7 @@ const importData = async() =>{
 const deleteData = async() =>{
     try {
         await Bootcamps.deleteMany();
+        await Course.deleteMany();
         console.log('Data destroyed..'.red.inverse);
         process.exit();
     } catch (error) {

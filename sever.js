@@ -17,6 +17,8 @@ connectdb();
 
 //Routes files
 const bootcamps = require('./routes/bootcamps');
+const courses = require('./routes/courses');
+
 
 const app = express();
 //body parser
@@ -30,6 +32,7 @@ app.use(morgan('dev'));
 
 // mount routers
 app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/courses', courses);
 
 //error handler
 app.use(errorHandler);
