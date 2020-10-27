@@ -1,3 +1,4 @@
+const path = require('path');
 const Bootcamp = require('../models/Bootcamp');
 const ErrorResponse = require('../utils/errorResponse');
 const geocoder = require('../utils/geocoder');
@@ -10,7 +11,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     let query;
 
     // Copy req.query
-    const reqQuery = { ...req.query };
+    const reqQuery = req.query;
 
 
     //fields to exclude
@@ -60,8 +61,8 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
         }
     }
 
-    if (statIndex > 0){
-        pagination.prev ={
+    if (statIndex > 0) {
+        pagination.prev = {
             page: page - 1,
             limit
         }
@@ -166,3 +167,42 @@ exports.getBootcampInRadius = asyncHandler(async (req, res, next) => {
     })
 });
 
+
+
+//@desc  upload photo
+//@route  PUT /api/vi/bootcamps/:id/photo
+//@access private
+exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
+    const bootcamp = await Bootcamp.findById(req.params.id)
+    if (!bootcamp) {
+        return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));
+    }
+    if (!req.files) {
+        return next(new ErrorResponse(`please upload a file`, 404));
+    }
+    const file = req.files.file
+    console.log(file)
+    //make sure file is a photo
+    if (!file.mimetype.startsWith('image')) {
+        return next(new ErrorResponse(`please upload an image file`, 400));
+    }
+
+    //check image size 
+    if (file.size > process.env.MAX_FILE_UPLOAD) {
+        return next(new ErrorResponse(`file too large ${process.env.MAX_FILE_UPLOAD}`, 404));
+    }
+
+    // CREATE CUSTOM FILE NAME 
+    file.name = `photo_${bootcamp._id}${path.parse(file.name).ext}`;
+
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async err => {
+        if (err) {
+            return next(new ErrorResponse(`problem with file upload`, 400));
+        }
+        await Bootcamp.findByIdAndUpdate(req.params.id, { photo: file.name });
+    });
+    res.status(200).json({
+        success: true,
+        data: file.name
+    })
+});
