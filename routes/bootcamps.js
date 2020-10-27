@@ -19,13 +19,17 @@ const router = express.Router();
 //re-route into other resource routers
 router.use('/:bootcampId/courses', courseRouter);
 
+const bootcamp = require('../models/Bootcamp');
+const advancedResult = require('../middleware/advancedResults');
+const Bootcamp = require("../models/Bootcamp");
+
 
 //route
 router.route('/:id/photo').put(bootcampPhotoUpload);
 
 router.route('/radius/:zipcode/:distance').get(getBootcampInRadius);
 
-router.route('/').get(getBootcamps).post(createBootcamp);
+router.route('/').get(advancedResult(Bootcamp,'courses'),getBootcamps).post(createBootcamp);
 
 router.route('/:id').get(getBootcamp).put(updateBootcamp).delete(deleteBootcamp);
 
