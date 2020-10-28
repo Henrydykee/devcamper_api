@@ -6,6 +6,7 @@ const errorHandler = require('./middleware/error');
 const logger = require('./middleware/logger');
 const morgan  = require('morgan');
 const fileupload = require('express-fileupload');
+const cookieParser = require('cookie-parser');
 const connectdb =  require('./config/db');
 
 //load config file
@@ -19,11 +20,15 @@ connectdb();
 //Routes files
 const bootcamps = require('./routes/bootcamps');
 const courses = require('./routes/courses');
+const auth = require('./routes/auth');
+
 
 
 const app = express();
 //body parser
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use(logger);
 //dev logger middleware
@@ -40,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 // mount routers
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
+app.use('/api/v1/auth', auth);
 
 //error handler
 app.use(errorHandler);

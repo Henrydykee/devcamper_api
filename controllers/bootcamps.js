@@ -11,8 +11,6 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     res.status(200).json(res.advancedResults);
 });
 
-
-
 //@desc  get single bootcamps 
 //@route  GET /api/vi/bootcamps/:id
 //@access public
@@ -28,8 +26,6 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
     });
 });
 
-
-
 //@desc  create new  bootcamps 
 //@route  POST /api/vi/bootcamps
 //@access private
@@ -41,7 +37,6 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
         data: bootcamp
     });
 });
-
 
 //@desc  Update bootcamps
 //@route  PUT /api/vi/bootcamps/:id
@@ -99,8 +94,6 @@ exports.getBootcampInRadius = asyncHandler(async (req, res, next) => {
         data: bootcamps
     })
 });
-
-
 
 //@desc  upload photo
 //@route  PUT /api/vi/bootcamps/:id/photo
