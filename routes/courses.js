@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const express = require("express");
+const {protect,authorize} = require('../middleware/auth')
 
 const {
     getCourses,
@@ -17,8 +18,8 @@ const router = express.Router({
 });
 
 router.route('/').get(advancedResults(Course,{path:'bootcamp' , select:'name description'}),getCourses);
-router.route('/:id').post(createCourse);
-router.route('/:id').get(getCourse);
-router.route('/:id').put(updateCourse);
+router.route('/:id').post(protect,authorize('publiser','admin'),createCourse);
+router.route('/:id').get(protect,getCourse);
+router.route('/:id').put(protect,authorize('publiser','admin'),updateCourse);
 
 module.exports = router; 
