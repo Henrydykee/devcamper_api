@@ -28,12 +28,12 @@ const Bootcamp = require("../models/Bootcamp");
 
 
 //route
-router.route('/:id/photo').put(protect,authorize('publiser','admin') ,bootcampPhotoUpload);
+router.route('/:id/photo').put(protect,authorize('publisher','admin') ,bootcampPhotoUpload);
 
 router.route('/radius/:zipcode/:distance').get(getBootcampInRadius);
 
-router.route('/').get(advancedResult(Bootcamp, 'courses'), getBootcamps).post(protect,authorize('publiser','admin'), createBootcamp);
+router.route('/').get(advancedResult(Bootcamp, 'courses'), getBootcamps).post(protect,authorize('publisher','admin'), createBootcamp);
 
-router.route('/:id').get(getBootcamp).put(protect,authorize('publiser','admin'), updateBootcamp).delete(protect,authorize('publiser','admin'), deleteBootcamp);
+router.route('/:id').get(getBootcamp).put(protect,authorize('publisher','admin'), updateBootcamp).delete(protect,authorize('publisher','admin'), deleteBootcamp);
 
 module.exports = router; 

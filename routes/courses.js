@@ -18,8 +18,8 @@ const router = express.Router({
 });
 
 router.route('/').get(advancedResults(Course,{path:'bootcamp' , select:'name description'}),getCourses);
-router.route('/:id').post(protect,authorize('publiser','admin'),createCourse);
+router.route('/:id').post(protect,authorize('publisher','admin'),createCourse);
 router.route('/:id').get(protect,getCourse);
-router.route('/:id').put(protect,authorize('publiser','admin'),updateCourse);
+router.route('/:id').put(protect,authorize('publisher','admin'),updateCourse);
 
 module.exports = router; 

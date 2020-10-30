@@ -3,6 +3,12 @@ const slugify = require('slugify');
 const geocoder = require('../utils/geocoder');
 
 const BootcampSchema = new mongoose.Schema({
+
+    user : {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required : true
+    },
     name: {
         type: String,
         required: [true, 'please add name'],
