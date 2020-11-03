@@ -79,6 +79,21 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     })
 });
 
+//@desc  get log user out / clear cookies 
+//@route  get /api/vi/auth/logout
+//@access private
+
+exports.logout = asyncHandler(async (req, res, next) => {
+    res.cookie('token','none',{
+        expires : new Date(Date.now() + 10 * 1000),
+        httpOnly:  true
+    })
+    res.status(200).json({
+        success: true,
+        data: {}
+    })
+});
+
 
 //@desc  forgot password  
 //@route  get /api/vi/auth/forgotpassword

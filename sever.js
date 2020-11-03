@@ -5,9 +5,14 @@ const colors = require('colors');
 const errorHandler = require('./middleware/error');
 const logger = require('./middleware/logger');
 const morgan  = require('morgan');
+const mongoSanitize = require('express-mongo-sanitize');
 const fileupload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const connectdb =  require('./config/db');
+const helmet = require("helmet");
+const xss = require('xss-clean');
+const rateLimit = require("express-rate-limit");
+const hpp = require('hpp');
 
 //load config file
 dotenv.config({ path: './config/config.env' });
@@ -15,6 +20,8 @@ dotenv.config({ path: './config/config.env' });
 
 //connect to db
 connectdb();
+
+
  
 
 //Routes files
@@ -32,7 +39,27 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+//sanitize data
+app.use(mongoSanitize());
+
+// set security headers
+app.use(helmet());
+
+app.use(xss());
+
+app.use(hpp());
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+  });
+
 app.use(logger);
+
+//  apply to all requests
+app.use(limiter);
+
+
 //dev logger middleware
 if(process.env.NODE_ENV === 'development'){
 app.use(morgan('dev'));
