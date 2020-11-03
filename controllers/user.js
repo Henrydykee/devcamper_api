@@ -2,13 +2,19 @@ const User = require('../models/user');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const { options, use } = require('../routes/auth');
+const { find } = require('../models/user');
 
 
 //@desc  get all users
 //@route  get /api/vi/auth/users
 //@access private/admin
 exports.getAllUser = asyncHandler(async (req, res, next) => {
-    res.status(200).json(res.advancedresults);
+    const user = await User.find();
+    res.status(200).json({
+        success: true,
+        count: User.length,
+        data : user
+    });
 });
 
 //@desc  getsingle user 
