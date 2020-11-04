@@ -6,7 +6,6 @@ const advancedResults = (model, populate) => async(req, res, next) => {
     // Copy req.query
     const reqQuery = req.query;
 
-
     //fields to exclude
     const removeFileds = ['select', 'sort', 'page', 'limit'];
 
